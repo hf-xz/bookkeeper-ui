@@ -3,16 +3,13 @@
   @Auth: hfxz xuan__zai@outlook.com
  */
 
-// 从环境变量读取 api 基础路径
-const BASE_URL = import.meta.env.VITE_BASE_URL
+// 基础路径，会被反向代理
+const BASE_URL = '/api'
 
 // 基础请求
 const request = async (url: string, config: RequestInit) => {
   // 处理非全路径请求
   if (!url.startsWith('http') && !url.startsWith('https')) {
-    // 检查是否配置了基础路径
-    if (!BASE_URL) throw Error('请配置 VITE_BASE_URL 环境变量')
-
     // 处理可能出现的重复 '/'
     if (BASE_URL.endsWith('/') && url.startsWith('/')) {
       url = BASE_URL + url.slice(1)
