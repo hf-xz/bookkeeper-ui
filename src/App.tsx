@@ -2,6 +2,13 @@ import Today from '@/components/today/Today'
 
 import './App.css'
 
+const test = () => {
+  Fetch.get('student').then((res) => {
+    console.log(res)
+    // Handle res
+  })
+}
+
 function App() {
   return (
     <>
@@ -9,6 +16,7 @@ function App() {
       <div className="card">
         <Today />
       </div>
+      <button onClick={test}>test</button>
     </>
   )
 }

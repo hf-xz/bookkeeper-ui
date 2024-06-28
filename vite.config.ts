@@ -10,7 +10,9 @@ export default defineConfig({
       // 需要自动引入的库，可以去官方查看支持哪些
       imports: ['react'],
       // 生成 auto-imports.d.ts 文件，后面配置 TS 用
-      dts: true
+      dts: true,
+      // 自动引入文件夹内容
+      dirs: ['src/utils']
     })
   ],
   server: {
@@ -20,5 +22,10 @@ export default defineConfig({
     alias: {
       '@': '/src'
     }
-  }
+  },
+  esbuild: {
+    pure: ['console.log'],
+    drop: ['debugger']
+  },
+  envDir: 'config'
 })
