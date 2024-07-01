@@ -26,6 +26,13 @@ const request = async (url: string, config: RequestInit) => {
       }
       return res.json()
     })
+    .then((res) => {
+      if (res.code !== 200) {
+        // 业务异常返回
+        throw Error(res.message)
+      }
+      return res.data
+    })
     .catch((err) => {
       console.log(err.message)
       return Promise.reject(err)
