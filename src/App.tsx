@@ -1,23 +1,13 @@
 import Today from '@/components/today/Today'
 
-import './App.css'
-
-const test = () => {
-  Fetch.get('student').then((res) => {
-    console.log(res)
-    // Handle res
-  })
-}
-
 function App() {
   return (
-    <>
+    <div className="flex flex-col items-center gap-4 p-4">
       <h1>记账工具</h1>
-      <div className="card">
+      <div className="card w-min">
         <Today />
       </div>
-      <button onClick={test}>test</button>
-    </>
+    </div>
   )
 }
 

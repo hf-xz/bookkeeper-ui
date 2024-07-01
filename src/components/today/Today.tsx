@@ -21,12 +21,26 @@ const Today = () => {
   return (
     <>
       <h2>今日营业额</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="number" {...register('tiCai', { required: true })} />
-        <input type="number" {...register('waiDian', { required: true })} />
-        <input type="number" {...register('fuCai', { required: true })} />
-        <input type="number" {...register('onePercent', { required: true })} />
-        <button type="submit">提交</button>
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
+        <div className="w-[270px]">
+          <span>体彩：</span>
+          <input className="ml-2" type="number" {...register('tiCai', { required: true })} />
+        </div>
+        <div className="w-[270px]">
+          <span>外店：</span>
+          <input className="ml-2" type="number" {...register('waiDian', { required: true })} />
+        </div>
+        <div className="w-[270px]">
+          <span>福彩：</span>
+          <input className="ml-2" type="number" {...register('fuCai', { required: true })} />
+        </div>
+        <div className="w-[270px]">
+          <span>其他：</span>
+          <input className="ml-2" type="number" {...register('onePercent', { required: true })} />
+        </div>
+        <button type="submit" className="w-20 self-end">
+          保存
+        </button>
       </form>
     </>
   )
