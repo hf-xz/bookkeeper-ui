@@ -34,7 +34,7 @@ const request = async (url: string, config: RequestInit) => {
       return res.data
     })
     .catch((err) => {
-      console.log(err.message)
+      console.error(err.message)
       return Promise.reject(err)
     })
 }

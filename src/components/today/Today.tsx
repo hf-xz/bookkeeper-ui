@@ -12,10 +12,13 @@ const Today = () => {
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const date = dayjs().format('YYYY-MM-DD')
-    Fetch.post('turnover', { ...data, date }).then((res) => {
-      console.log(res.data)
-      // Handle res
-    })
+    Fetch.post('turnover', { ...data, date }).then(
+      (res) => {
+        console.log(res.data)
+        // Handle res
+      },
+      () => {}
+    )
   }
 
   return (
