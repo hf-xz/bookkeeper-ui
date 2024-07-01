@@ -59,9 +59,9 @@ const Today = () => {
   ] as { key: number; label: string; field: TurnoverFormField }[]
   // 表单
   const { register, handleSubmit } = useForm<TurnoverForm>()
-  const submit: SubmitHandler<TurnoverForm> = (data) => {
+  const submit: SubmitHandler<TurnoverForm> = _debounce((data) => {
     save(data)
-  }
+  }, 500)
 
   /* 初始化 */
   useEffect(() => {
