@@ -12,6 +12,14 @@ export default defineConfig({
         'react',
         {
           'react-hot-toast': ['toast', 'Toaster']
+        },
+        {
+          'react-hook-form': ['useForm']
+        },
+        {
+          from: 'react-hook-form',
+          imports: ['SubmitHandler'],
+          type: true
         }
       ],
       // 生成 auto-imports.d.ts 文件，后面配置 TS 用
