@@ -8,7 +8,12 @@ export default defineConfig({
     react(),
     AutoImport({
       // 需要自动引入的库，可以去官方查看支持哪些
-      imports: ['react'],
+      imports: [
+        'react',
+        {
+          'react-hot-toast': ['toast', 'Toaster']
+        }
+      ],
       // 生成 auto-imports.d.ts 文件，后面配置 TS 用
       dts: true,
       // 自动引入文件夹内容

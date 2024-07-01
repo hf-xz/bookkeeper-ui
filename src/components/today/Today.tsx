@@ -9,22 +9,35 @@ type Form = {
 
 const Today = () => {
   const { register, handleSubmit } = useForm<Form>()
+  const [saveError, setSaveError] = useState('')
 
-  const onSubmit: SubmitHandler<Form> = (data) => {
+  const save: SubmitHandler<Form> = (data) => {
     const date = dayjs().format('YYYY-MM-DD')
-    Fetch.post('turnover', { ...data, date }).then(
+
+    const req = Fetch.post('turnover', { ...data, date }).then(
       (res) => {
         console.log(res.data)
         // Handle res
       },
-      () => {}
+      (err) => {
+        if (err.error === 'Duplicate Error') {
+          setSaveError('今日营业额已存在')
+        }
+        return Promise.reject()
+      }
     )
+
+    toast.promise(req, {
+      loading: '保存中...',
+      success: <b>保存成功</b>,
+      error: <b>{saveError}</b>
+    })
   }
 
   return (
     <>
       <h2>今日营业额</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
+      <form onSubmit={handleSubmit(save)} className="mt-4 flex flex-col gap-4">
         <div className="w-[270px]">
           <span>体彩：</span>
           <input className="ml-2" type="number" {...register('tiCai', { required: true })} />

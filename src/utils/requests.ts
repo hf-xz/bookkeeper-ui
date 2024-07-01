@@ -29,7 +29,7 @@ const request = async (url: string, config: RequestInit) => {
     .then((res) => {
       if (res.code !== 200) {
         // 业务异常返回
-        throw Error(res.message)
+        return Promise.reject(res)
       }
       return res.data
     })
