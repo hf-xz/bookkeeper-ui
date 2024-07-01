@@ -1,9 +1,8 @@
-type Field = keyof TurnoverForm
 type Register = ReturnType<typeof useForm<TurnoverForm>>['register']
 
 interface InputProps {
   label: string
-  field: Field
+  field: TurnoverFormField
   register: Register
   value?: number
 }

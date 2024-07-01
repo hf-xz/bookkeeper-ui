@@ -56,7 +56,7 @@ const Today = () => {
     { key: 2, label: '外店', field: 'waiDian' },
     { key: 3, label: '福彩', field: 'fuCai' },
     { key: 4, label: '其他', field: 'onePercent' }
-  ] as { key: number; label: string; field: keyof TurnoverForm }[]
+  ] as { key: number; label: string; field: TurnoverFormField }[]
   // 表单
   const { register, handleSubmit } = useForm<TurnoverForm>()
   const submit: SubmitHandler<TurnoverForm> = (data) => {

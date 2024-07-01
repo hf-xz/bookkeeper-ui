@@ -4,6 +4,7 @@ declare type TurnoverForm = {
   fuCai: number
   onePercent: number
 }
+declare type TurnoverFormField = keyof TurnoverForm
 
 declare type Turnover = {
   id: string
