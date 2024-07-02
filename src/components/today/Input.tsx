@@ -5,6 +5,7 @@ interface InputProps {
   field: TurnoverFormField
   register: Register
   value?: number
+  disabled?: boolean
 }
 
 const Input = ({ label, field, register, value }: InputProps) => {
@@ -12,7 +13,7 @@ const Input = ({ label, field, register, value }: InputProps) => {
     <div className="w-[270px]">
       <span>{label}：</span>
       <input
-        disabled={!value}
+        disabled={value !== undefined}
         className="ml-2"
         type="number"
         {...register(field, { required: true })}

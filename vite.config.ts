@@ -25,7 +25,7 @@ export default defineConfig({
       // 生成 auto-imports.d.ts 文件，后面配置 TS 用
       dts: true,
       // 自动引入文件夹内容
-      dirs: ['src/utils']
+      dirs: ['src/utils', 'src/services']
     })
   ],
   server: {

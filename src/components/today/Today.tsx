@@ -1,3 +1,5 @@
+import { useTurnoverService } from '@/services/turnover'
+
 import Input from './Input'
 
 const Today = () => {
@@ -5,72 +7,56 @@ const Today = () => {
   const [turnover, setTurnover] = useState<Turnover | null>(null)
 
   /* 数据交互 */
-  // 加载
+  const { loadToday, saveToday, updateToday } = useTurnoverService()
   const loadingTody = useRef(false)
-  const loadToday = async () => {
-    if (loadingTody.current) return
-    loadingTody.current = true
-
-    const date = dayjs().format('YYYY-MM-DD')
-    const req = Fetch.get(`turnover/date/${date}`).then(
-      (res) => {
-        setTurnover(res)
-      },
-      () => {
-        return Promise.reject()
-      }
-    )
-    toast.promise(req, {
-      loading: '加载今日营业额...',
-      success: '加载成功',
-      error: '今日营业额加载失败'
-    })
-    await req
-    loadingTody.current = false
-  }
-
-  // 保存
-  const save = (data: TurnoverForm) => {
-    const date = dayjs().format('YYYY-MM-DD')
-    const req = Fetch.post('turnover', { ...data, date }).then(
-      (res) => {
-        console.log(res.data)
-        // TODO Handle res
-      },
-      (err) => {
-        if (err.error === 'Duplicate Error') return Promise.reject('今日营业额已存在')
-        return Promise.reject(err.message)
-      }
-    )
-    toast.promise(req, {
-      loading: '保存中...',
-      success: '保存成功',
-      error: (err) => err.toString()
-    })
-  }
+  const isUpdate = useRef(false)
 
   /* 表单渲染 */
   // 字段定义
-  const inputList = [
-    { key: 1, label: '体彩', field: 'tiCai' },
-    { key: 2, label: '外店', field: 'waiDian' },
-    { key: 3, label: '福彩', field: 'fuCai' },
-    { key: 4, label: '其他', field: 'onePercent' }
-  ] as { key: number; label: string; field: TurnoverFormField }[]
+  const inputList = useMemo(
+    () =>
+      [
+        { key: 1, label: '体彩', field: 'tiCai' },
+        { key: 2, label: '外店', field: 'waiDian' },
+        { key: 3, label: '福彩', field: 'fuCai' },
+        { key: 4, label: '其他', field: 'onePercent' }
+      ] as { key: number; label: string; field: TurnoverFormField }[],
+    []
+  )
+
   // 表单
-  const { register, handleSubmit } = useForm<TurnoverForm>()
-  const submit: SubmitHandler<TurnoverForm> = _debounce((data) => {
-    save(data)
+  const { register, handleSubmit, setValue } = useForm<TurnoverForm>()
+
+  // 表单提交
+  const submit: SubmitHandler<TurnoverForm> = _debounce(([data]) => {
+    if (!turnover) {
+      if (!isUpdate.current) saveToday(data, setTurnover)
+      else updateToday(data, setTurnover, loadingTody)
+    } else {
+      console.log('[Today] updating...')
+      isUpdate.current = true
+      setTurnover(null)
+    }
   }, 500)
+
+  // 更新表单数据
+  useEffect(() => {
+    if (turnover) for (const input of inputList) setValue(input.field, turnover[input.field])
+  }, [inputList, setValue, turnover])
 
   /* 初始化 */
   useEffect(() => {
     const init = async () => {
-      // 加载数据
-      await loadToday()
+      await loadToday(setTurnover, loadingTody)
     }
     init()
-  }, [])
+
+    return () => {
+      // 重置状态
+      setTurnover(null)
+      isUpdate.current = false
+    }
+  }, [loadToday])
 
   return (
     <>
@@ -86,7 +72,7 @@ const Today = () => {
           />
         ))}
         <button type="submit" className="w-20 self-end">
-          保存
+          {turnover ? '修改' : '保存'}
         </button>
       </form>
     </>
