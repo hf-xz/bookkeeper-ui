@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path",
-      "destination": "https://bookkeeper.api.hfxz.link/:path"
+      "source": "/api/(.*)",
+      "destination": "https://bookkeeper.api.hfxz.link/$1"
     }
   ]
 }
