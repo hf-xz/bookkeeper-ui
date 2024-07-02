@@ -2,7 +2,7 @@ declare type TurnoverForm = {
   tiCai: number
   waiDian: number
   fuCai: number
-  onePercent: number
+  other: number
 }
 declare type TurnoverFormField = keyof TurnoverForm
 
@@ -12,5 +12,5 @@ declare type Turnover = {
   tiCai: number
   waiDian: number
   fuCai: number
-  onePercent: number
+  other: number
 }

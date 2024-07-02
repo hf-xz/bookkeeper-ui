@@ -20,7 +20,7 @@ const Today = () => {
         { key: 1, label: '体彩', field: 'tiCai' },
         { key: 2, label: '外店', field: 'waiDian' },
         { key: 3, label: '福彩', field: 'fuCai' },
-        { key: 4, label: '其他', field: 'onePercent' }
+        { key: 4, label: '其他', field: 'other' }
       ] as { key: number; label: string; field: TurnoverFormField }[],
     []
   )
@@ -44,9 +44,7 @@ const Today = () => {
   useEffect(() => {
     if (turnover) {
       for (const input of inputList) setValue(input.field, turnover[input.field])
-      setMaoLi(
-        (turnover.tiCai - turnover.waiDian) * 0.07 + turnover.fuCai + turnover.onePercent * 0.01
-      )
+      setMaoLi((turnover.tiCai - turnover.waiDian) * 0.07 + turnover.fuCai + turnover.other)
     }
   }, [inputList, setValue, turnover])
 
