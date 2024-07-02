@@ -5,6 +5,7 @@ import Input from './Input'
 const Today = () => {
   /* 数据定义 */
   const [turnover, setTurnover] = useState<Turnover | null>(null)
+  const [maoLi, setMaoLi] = useState<number>(0)
 
   /* 数据交互 */
   const { loadToday, saveToday, updateToday } = useTurnoverService()
@@ -41,7 +42,12 @@ const Today = () => {
 
   // 更新表单数据
   useEffect(() => {
-    if (turnover) for (const input of inputList) setValue(input.field, turnover[input.field])
+    if (turnover) {
+      for (const input of inputList) setValue(input.field, turnover[input.field])
+      setMaoLi(
+        (turnover.tiCai - turnover.waiDian) * 0.07 + turnover.fuCai + turnover.onePercent * 0.01
+      )
+    }
   }, [inputList, setValue, turnover])
 
   /* 初始化 */
@@ -71,6 +77,7 @@ const Today = () => {
             value={turnover?.[input.field]}
           />
         ))}
+        <div>毛利： {maoLi.toFixed(2)}</div>
         <button type="submit" className="w-20 self-end">
           {turnover ? '修改' : '保存'}
         </button>
